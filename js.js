@@ -7,7 +7,12 @@ document.querySelectorAll('.btn').forEach(button => {
     button.addEventListener('click', () => {
         const value = button.getAttribute('data-value');
 
-        // add maximum type
+        // maximum digits
+        maximum = firstNumber.length + operator.length + secondNumber.length;
+        if (maximum >= 12 && value !== 'clear'){
+            // prevent further input
+            return;
+        };
 
         // if it's clear
         if(value === 'clear'){
@@ -36,13 +41,19 @@ document.querySelectorAll('.btn').forEach(button => {
                     total = secondNumber === '0' ? 'Error' : Number(firstNumber) / Number(secondNumber);
                 };
                 if (operator === '%'){
-                    total = Number(firstNumber) % Number(secondNumber);
+                    total = Number(firstNumber) * Number(secondNumber) / 100;
                 };
                 if (operator === '√'){
                     total = Math.sqrt(Number(firstNumber));
                 };
 
-                result.textContent = total;
+                let display = total.toString();
+
+                if (display.length > 12){
+                    display = display.slice(0, 12);
+                }
+
+                result.textContent = display;
 
                 firstNumber = total.toString();
                 secondNumber = '';
